@@ -82,8 +82,7 @@ public class OrderBOImplTest {
         verify(this.dao).update(order);
     }
     @Test
-    public void cancelOrder_ShouldThrowABOException() throws SQLException, BOException {
-        Order order = new Order();
+    public void cancelOrder_Should_Throw_A_BOException_On_Read() throws SQLException{
         when(this.dao.read(123)).thenThrow(SQLException.class);
         Assertions.assertThrows(BOException.class, ()->{
             this.bo.cancelOrder(123);
@@ -91,6 +90,17 @@ public class OrderBOImplTest {
         verify(this.dao).read(123);
     }
 
+    @Test
+    public void cancelOrder_Should_Throw_A_BOException_On_Update() throws SQLException, BOException {
+        Order order = new Order();
+        when(this.dao.read(123)).thenReturn(order);
+        when(this.dao.update(order)).thenThrow(SQLException.class);
+        Assertions.assertThrows(BOException.class, ()->{
+            this.bo.cancelOrder(123);
+        });
+        verify(this.dao).read(123);
+        verify(this.dao).update(order);
+    }
 
 
 }
