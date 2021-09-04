@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LifecycleMethodUtils</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.jupiter.engine.descriptor</a>
+</div>
+
+<h1>Coverage Summary for Class: LifecycleMethodUtils (org.junit.jupiter.engine.descriptor)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LifecycleMethodUtils</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    81.8%
+  </span>
+  <span class="absValue">
+    (9/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66.7%
+  </span>
+  <span class="absValue">
+    (16/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.jupiter.engine.descriptor;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.lang.annotation.Annotation;
+<i class="no-highlight">9</i>&nbsp;import java.lang.reflect.Method;
+<i class="no-highlight">10</i>&nbsp;import java.util.List;
+<i class="no-highlight">11</i>&nbsp;import org.junit.jupiter.api.AfterAll;
+<i class="no-highlight">12</i>&nbsp;import org.junit.jupiter.api.AfterEach;
+<i class="no-highlight">13</i>&nbsp;import org.junit.jupiter.api.BeforeAll;
+<i class="no-highlight">14</i>&nbsp;import org.junit.jupiter.api.BeforeEach;
+<i class="no-highlight">15</i>&nbsp;import org.junit.platform.commons.JUnitException;
+<i class="no-highlight">16</i>&nbsp;import org.junit.platform.commons.util.AnnotationUtils;
+<i class="no-highlight">17</i>&nbsp;import org.junit.platform.commons.util.ReflectionUtils;
+<i class="no-highlight">18</i>&nbsp;import org.junit.platform.commons.util.ReflectionUtils.HierarchyTraversalMode;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;final class LifecycleMethodUtils {
+<i class="no-highlight">21</i>&nbsp;    private LifecycleMethodUtils() {
+<i class="no-highlight">22</i>&nbsp;    }
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    static List&lt;Method&gt; findBeforeAllMethods(Class&lt;?&gt; testClass, boolean requireStatic) {
+<i class="no-highlight">25</i>&nbsp;        return findMethodsAndAssertStatic(testClass, requireStatic, BeforeAll.class, HierarchyTraversalMode.TOP_DOWN);
+<i class="no-highlight">26</i>&nbsp;    }
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    static List&lt;Method&gt; findAfterAllMethods(Class&lt;?&gt; testClass, boolean requireStatic) {
+<i class="no-highlight">29</i>&nbsp;        return findMethodsAndAssertStatic(testClass, requireStatic, AfterAll.class, HierarchyTraversalMode.BOTTOM_UP);
+<i class="no-highlight">30</i>&nbsp;    }
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    static List&lt;Method&gt; findBeforeEachMethods(Class&lt;?&gt; testClass) {
+<i class="no-highlight">33</i>&nbsp;        return findMethodsAndAssertNonStatic(testClass, BeforeEach.class, HierarchyTraversalMode.TOP_DOWN);
+<i class="no-highlight">34</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">35</i>&nbsp;</b>
+<i class="no-highlight">36</i>&nbsp;    static List&lt;Method&gt; findAfterEachMethods(Class&lt;?&gt; testClass) {
+<i class="no-highlight">37</i>&nbsp;        return findMethodsAndAssertNonStatic(testClass, AfterEach.class, HierarchyTraversalMode.BOTTOM_UP);
+<i class="no-highlight">38</i>&nbsp;    }
+<i class="no-highlight">39</i>&nbsp;
+<b class="fc"><i class="no-highlight">40</i>&nbsp;    private static void assertStatic(Class&lt;? extends Annotation&gt; annotationType, Method method) {</b>
+<i class="no-highlight">41</i>&nbsp;        if (ReflectionUtils.isNotStatic(method)) {
+<i class="no-highlight">42</i>&nbsp;            throw new JUnitException(String.format(&quot;@%s method &#39;%s&#39; must be static unless the test class is annotated with @TestInstance(Lifecycle.PER_CLASS).&quot;, annotationType.getSimpleName(), method.toGenericString()));
+<i class="no-highlight">43</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">44</i>&nbsp;    }</b>
+<i class="no-highlight">45</i>&nbsp;
+<i class="no-highlight">46</i>&nbsp;    private static void assertNonStatic(Class&lt;? extends Annotation&gt; annotationType, Method method) {
+<i class="no-highlight">47</i>&nbsp;        if (ReflectionUtils.isStatic(method)) {
+<b class="fc"><i class="no-highlight">48</i>&nbsp;            throw new JUnitException(String.format(&quot;@%s method &#39;%s&#39; must not be static.&quot;, annotationType.getSimpleName(), method.toGenericString()));</b>
+<i class="no-highlight">49</i>&nbsp;        }
+<i class="no-highlight">50</i>&nbsp;    }
+<i class="no-highlight">51</i>&nbsp;
+<b class="fc"><i class="no-highlight">52</i>&nbsp;    private static void assertVoid(Class&lt;? extends Annotation&gt; annotationType, Method method) {</b>
+<i class="no-highlight">53</i>&nbsp;        if (!ReflectionUtils.returnsVoid(method)) {
+<i class="no-highlight">54</i>&nbsp;            throw new JUnitException(String.format(&quot;@%s method &#39;%s&#39; must not return a value.&quot;, annotationType.getSimpleName(), method.toGenericString()));
+<i class="no-highlight">55</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">56</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">57</i>&nbsp;</b>
+<i class="no-highlight">58</i>&nbsp;    private static List&lt;Method&gt; findMethodsAndAssertStatic(Class&lt;?&gt; testClass, boolean requireStatic, Class&lt;? extends Annotation&gt; annotationType, HierarchyTraversalMode traversalMode) {
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        List&lt;Method&gt; methods = findMethodsAndCheckVoidReturnType(testClass, annotationType, traversalMode);</b>
+<i class="no-highlight">60</i>&nbsp;        if (requireStatic) {
+<i class="no-highlight">61</i>&nbsp;            methods.forEach((method) -&gt; {
+<i class="no-highlight">62</i>&nbsp;                assertStatic(annotationType, method);
+<i class="no-highlight">63</i>&nbsp;            });
+<b class="pc"><i class="no-highlight">64</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        return methods;</b>
+<i class="no-highlight">67</i>&nbsp;    }
+<i class="no-highlight">68</i>&nbsp;
+<i class="no-highlight">69</i>&nbsp;    private static List&lt;Method&gt; findMethodsAndAssertNonStatic(Class&lt;?&gt; testClass, Class&lt;? extends Annotation&gt; annotationType, HierarchyTraversalMode traversalMode) {
+<i class="no-highlight">70</i>&nbsp;        List&lt;Method&gt; methods = findMethodsAndCheckVoidReturnType(testClass, annotationType, traversalMode);
+<b class="pc"><i class="no-highlight">71</i>&nbsp;        methods.forEach((method) -&gt; {</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;            assertNonStatic(annotationType, method);</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        });</b>
+<i class="no-highlight">74</i>&nbsp;        return methods;
+<i class="no-highlight">75</i>&nbsp;    }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;    private static List&lt;Method&gt; findMethodsAndCheckVoidReturnType(Class&lt;?&gt; testClass, Class&lt;? extends Annotation&gt; annotationType, HierarchyTraversalMode traversalMode) {
+<i class="no-highlight">78</i>&nbsp;        List&lt;Method&gt; methods = AnnotationUtils.findAnnotatedMethods(testClass, annotationType, traversalMode);
+<b class="fc"><i class="no-highlight">79</i>&nbsp;        methods.forEach((method) -&gt; {</b>
+<b class="pc"><i class="no-highlight">80</i>&nbsp;            assertVoid(annotationType, method);</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;        });</b>
+<i class="no-highlight">82</i>&nbsp;        return methods;
+<b class="fc"><i class="no-highlight">83</i>&nbsp;    }</b>
+<i class="no-highlight">84</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:22</div>
+</div>
+</body>
+</html>

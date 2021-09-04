@@ -1,0 +1,406 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > JavaElementsResolver</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.jupiter.engine.discovery</a>
+</div>
+
+<h1>Coverage Summary for Class: JavaElementsResolver (org.junit.jupiter.engine.discovery)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">JavaElementsResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    51.9%
+  </span>
+  <span class="absValue">
+    (14/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    36.2%
+  </span>
+  <span class="absValue">
+    (47/130)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.jupiter.engine.discovery;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.lang.reflect.AnnotatedElement;
+<i class="no-highlight">9</i>&nbsp;import java.lang.reflect.Method;
+<i class="no-highlight">10</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">11</i>&nbsp;import java.util.Collections;
+<i class="no-highlight">12</i>&nbsp;import java.util.Deque;
+<i class="no-highlight">13</i>&nbsp;import java.util.HashSet;
+<i class="no-highlight">14</i>&nbsp;import java.util.LinkedHashSet;
+<i class="no-highlight">15</i>&nbsp;import java.util.LinkedList;
+<i class="no-highlight">16</i>&nbsp;import java.util.List;
+<i class="no-highlight">17</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">18</i>&nbsp;import java.util.Optional;
+<i class="no-highlight">19</i>&nbsp;import java.util.Set;
+<i class="no-highlight">20</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">21</i>&nbsp;import java.util.stream.Stream;
+<i class="no-highlight">22</i>&nbsp;import org.junit.jupiter.engine.descriptor.ClassTestDescriptor;
+<i class="no-highlight">23</i>&nbsp;import org.junit.jupiter.engine.descriptor.Filterable;
+<i class="no-highlight">24</i>&nbsp;import org.junit.jupiter.engine.discovery.predicates.IsInnerClass;
+<i class="no-highlight">25</i>&nbsp;import org.junit.platform.commons.logging.Logger;
+<i class="no-highlight">26</i>&nbsp;import org.junit.platform.commons.logging.LoggerFactory;
+<i class="no-highlight">27</i>&nbsp;import org.junit.platform.commons.util.BlacklistedExceptions;
+<i class="no-highlight">28</i>&nbsp;import org.junit.platform.commons.util.ClassFilter;
+<i class="no-highlight">29</i>&nbsp;import org.junit.platform.commons.util.ClassUtils;
+<i class="no-highlight">30</i>&nbsp;import org.junit.platform.commons.util.ReflectionUtils;
+<i class="no-highlight">31</i>&nbsp;import org.junit.platform.engine.TestDescriptor;
+<i class="no-highlight">32</i>&nbsp;import org.junit.platform.engine.UniqueId;
+<i class="no-highlight">33</i>&nbsp;import org.junit.platform.engine.UniqueId.Segment;
+<i class="no-highlight">34</i>&nbsp;import org.junit.platform.engine.discovery.ClassSelector;
+<i class="no-highlight">35</i>&nbsp;import org.junit.platform.engine.discovery.ClasspathRootSelector;
+<i class="no-highlight">36</i>&nbsp;import org.junit.platform.engine.discovery.MethodSelector;
+<i class="no-highlight">37</i>&nbsp;import org.junit.platform.engine.discovery.ModuleSelector;
+<i class="no-highlight">38</i>&nbsp;import org.junit.platform.engine.discovery.PackageSelector;
+<i class="no-highlight">39</i>&nbsp;import org.junit.platform.engine.discovery.UniqueIdSelector;
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;class JavaElementsResolver {
+<i class="no-highlight">42</i>&nbsp;    private static final Logger logger = LoggerFactory.getLogger(JavaElementsResolver.class);
+<i class="no-highlight">43</i>&nbsp;    private static final IsInnerClass isInnerClass = new IsInnerClass();
+<i class="no-highlight">44</i>&nbsp;    private final TestDescriptor engineDescriptor;
+<i class="no-highlight">45</i>&nbsp;    private final ClassFilter classFilter;
+<i class="no-highlight">46</i>&nbsp;    private final Set&lt;ElementResolver&gt; resolvers;
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    JavaElementsResolver(TestDescriptor engineDescriptor, ClassFilter classFilter, Set&lt;ElementResolver&gt; resolvers) {
+<i class="no-highlight">49</i>&nbsp;        this.engineDescriptor = engineDescriptor;
+<i class="no-highlight">50</i>&nbsp;        this.classFilter = classFilter;
+<i class="no-highlight">51</i>&nbsp;        this.resolvers = resolvers;
+<i class="no-highlight">52</i>&nbsp;    }
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    void resolveClasspathRoot(ClasspathRootSelector selector) {
+<i class="no-highlight">55</i>&nbsp;        try {
+<i class="no-highlight">56</i>&nbsp;            ReflectionUtils.findAllClassesInClasspathRoot(selector.getClasspathRoot(), this.classFilter).forEach(this::resolveClass);
+<i class="no-highlight">57</i>&nbsp;        } catch (Throwable var3) {
+<i class="no-highlight">58</i>&nbsp;            BlacklistedExceptions.rethrowIfBlacklisted(var3);
+<i class="no-highlight">59</i>&nbsp;            logger.debug(var3, () -&gt; {
+<i class="no-highlight">60</i>&nbsp;                return String.format(&quot;Failed to resolve classes in classpath root &#39;%s&#39;.&quot;, selector.getClasspathRoot());
+<i class="no-highlight">61</i>&nbsp;            });
+<i class="no-highlight">62</i>&nbsp;        }
+<i class="no-highlight">63</i>&nbsp;
+<i class="no-highlight">64</i>&nbsp;    }
+<i class="no-highlight">65</i>&nbsp;
+<i class="no-highlight">66</i>&nbsp;    void resolveModule(ModuleSelector selector) {
+<i class="no-highlight">67</i>&nbsp;        try {
+<i class="no-highlight">68</i>&nbsp;            ReflectionUtils.findAllClassesInModule(selector.getModuleName(), this.classFilter).forEach(this::resolveClass);
+<i class="no-highlight">69</i>&nbsp;        } catch (Throwable var3) {
+<i class="no-highlight">70</i>&nbsp;            BlacklistedExceptions.rethrowIfBlacklisted(var3);
+<i class="no-highlight">71</i>&nbsp;            logger.debug(var3, () -&gt; {
+<b class="fc"><i class="no-highlight">72</i>&nbsp;                return String.format(&quot;Failed to resolve classes in module &#39;%s&#39;.&quot;, selector.getModuleName());</b>
+<i class="no-highlight">73</i>&nbsp;            });
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        }</b>
+<i class="no-highlight">75</i>&nbsp;
+<i class="no-highlight">76</i>&nbsp;    }
+<i class="no-highlight">77</i>&nbsp;
+<i class="no-highlight">78</i>&nbsp;    void resolvePackage(PackageSelector selector) {
+<i class="no-highlight">79</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">80</i>&nbsp;            ReflectionUtils.findAllClassesInPackage(selector.getPackageName(), this.classFilter).forEach(this::resolveClass);</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;        } catch (Throwable var3) {</b>
+<b class="fc"><i class="no-highlight">82</i>&nbsp;            BlacklistedExceptions.rethrowIfBlacklisted(var3);</b>
+<b class="fc"><i class="no-highlight">83</i>&nbsp;            logger.debug(var3, () -&gt; {</b>
+<i class="no-highlight">84</i>&nbsp;                return String.format(&quot;Failed to resolve classes in package &#39;%s&#39;.&quot;, selector.getPackageName());
+<i class="no-highlight">85</i>&nbsp;            });
+<i class="no-highlight">86</i>&nbsp;        }
+<i class="no-highlight">87</i>&nbsp;
+<b class="nc"><i class="no-highlight">88</i>&nbsp;    }</b>
+<i class="no-highlight">89</i>&nbsp;
+<b class="nc"><i class="no-highlight">90</i>&nbsp;    void resolveClass(ClassSelector selector) {</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        try {</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            this.resolveClass(selector.getJavaClass());</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        } catch (Throwable var3) {</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;            BlacklistedExceptions.rethrowIfBlacklisted(var3);</b>
+<i class="no-highlight">95</i>&nbsp;            logger.debug(var3, () -&gt; {
+<i class="no-highlight">96</i>&nbsp;                return String.format(&quot;Class &#39;%s&#39; could not be resolved.&quot;, selector.getClassName());
+<i class="no-highlight">97</i>&nbsp;            });
+<i class="no-highlight">98</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">99</i>&nbsp;</b>
+<i class="no-highlight">100</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">101</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">102</i>&nbsp;    private void resolveClass(Class&lt;?&gt; testClass) {</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        try {</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;            Set&lt;TestDescriptor&gt; resolvedDescriptors = this.resolveContainerWithParents(testClass);</b>
+<i class="no-highlight">105</i>&nbsp;            resolvedDescriptors.forEach(this::resolveChildren);
+<i class="no-highlight">106</i>&nbsp;            if (resolvedDescriptors.isEmpty()) {
+<i class="no-highlight">107</i>&nbsp;                logger.debug(() -&gt; {
+<i class="no-highlight">108</i>&nbsp;                    return String.format(&quot;Class &#39;%s&#39; could not be resolved.&quot;, ClassUtils.nullSafeToString(testClass));
+<b class="nc"><i class="no-highlight">109</i>&nbsp;                });</b>
+<i class="no-highlight">110</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">111</i>&nbsp;        } catch (Throwable var3) {</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;            BlacklistedExceptions.rethrowIfBlacklisted(var3);</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;            logger.debug(var3, () -&gt; {</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;                return String.format(&quot;Class &#39;%s&#39; could not be resolved.&quot;, ClassUtils.nullSafeToString(testClass));</b>
+<i class="no-highlight">115</i>&nbsp;            });
+<i class="no-highlight">116</i>&nbsp;        }
+<i class="no-highlight">117</i>&nbsp;
+<i class="no-highlight">118</i>&nbsp;    }
+<i class="no-highlight">119</i>&nbsp;
+<i class="no-highlight">120</i>&nbsp;    void resolveMethod(MethodSelector selector) {
+<i class="no-highlight">121</i>&nbsp;        try {
+<b class="fc"><i class="no-highlight">122</i>&nbsp;            Class&lt;?&gt; testClass = selector.getJavaClass();</b>
+<i class="no-highlight">123</i>&nbsp;            Method testMethod = selector.getJavaMethod();
+<b class="nc"><i class="no-highlight">124</i>&nbsp;            Set&lt;TestDescriptor&gt; potentialParents = this.resolveContainerWithParents(testClass);</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;            Set&lt;TestDescriptor&gt; resolvedDescriptors = this.resolveForAllParents(testMethod, potentialParents);</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;            if (resolvedDescriptors.isEmpty()) {</b>
+<b class="fc"><i class="no-highlight">127</i>&nbsp;                logger.debug(() -&gt; {</b>
+<i class="no-highlight">128</i>&nbsp;                    return String.format(&quot;Method &#39;%s&#39; could not be resolved.&quot;, testMethod.toGenericString());
+<i class="no-highlight">129</i>&nbsp;                });
+<i class="no-highlight">130</i>&nbsp;            }
+<i class="no-highlight">131</i>&nbsp;
+<b class="fc"><i class="no-highlight">132</i>&nbsp;            this.logMultipleTestDescriptorsForSingleElement(testMethod, resolvedDescriptors);</b>
+<b class="fc"><i class="no-highlight">133</i>&nbsp;        } catch (Throwable var6) {</b>
+<i class="no-highlight">134</i>&nbsp;            BlacklistedExceptions.rethrowIfBlacklisted(var6);
+<b class="pc"><i class="no-highlight">135</i>&nbsp;            logger.debug(var6, () -&gt; {</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;                return String.format(&quot;Method &#39;%s&#39; in class &#39;%s&#39; could not be resolved.&quot;, selector.getMethodName(), selector.getClassName());</b>
+<i class="no-highlight">137</i>&nbsp;            });
+<i class="no-highlight">138</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">139</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">141</i>&nbsp;</b>
+<b class="fc"><i class="no-highlight">142</i>&nbsp;    void resolveUniqueId(UniqueIdSelector selector) {</b>
+<i class="no-highlight">143</i>&nbsp;        UniqueId uniqueId = selector.getUniqueId();
+<i class="no-highlight">144</i>&nbsp;        if (&quot;junit-jupiter&quot;.equals(uniqueId.getEngineId().orElse((Object)null))) {
+<i class="no-highlight">145</i>&nbsp;            try {
+<i class="no-highlight">146</i>&nbsp;                Deque&lt;TestDescriptor&gt; resolvedDescriptors = this.resolveAllSegments(uniqueId);
+<b class="nc"><i class="no-highlight">147</i>&nbsp;                this.handleResolvedDescriptorsForUniqueId(uniqueId, resolvedDescriptors);</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;            } catch (Throwable var4) {</b>
+<i class="no-highlight">149</i>&nbsp;                BlacklistedExceptions.rethrowIfBlacklisted(var4);
+<b class="nc"><i class="no-highlight">150</i>&nbsp;                logger.warn(var4, () -&gt; {</b>
+<b class="nc"><i class="no-highlight">151</i>&nbsp;                    return String.format(&quot;Unique ID &#39;%s&#39; could not be resolved.&quot;, selector.getUniqueId());</b>
+<i class="no-highlight">152</i>&nbsp;                });
+<b class="nc"><i class="no-highlight">153</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">154</i>&nbsp;        }</b>
+<i class="no-highlight">155</i>&nbsp;
+<i class="no-highlight">156</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">157</i>&nbsp;</b>
+<i class="no-highlight">158</i>&nbsp;    private Set&lt;TestDescriptor&gt; resolveContainerWithParents(Class&lt;?&gt; testClass) {
+<b class="nc"><i class="no-highlight">159</i>&nbsp;        if (isInnerClass.test(testClass)) {</b>
+<b class="nc"><i class="no-highlight">160</i>&nbsp;            Set&lt;TestDescriptor&gt; potentialParents = this.resolveContainerWithParents(testClass.getDeclaringClass());</b>
+<b class="nc"><i class="no-highlight">161</i>&nbsp;            return this.resolveForAllParents(testClass, potentialParents);</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">163</i>&nbsp;            return this.resolveForAllParents(testClass, Collections.singleton(this.engineDescriptor));</b>
+<i class="no-highlight">164</i>&nbsp;        }
+<i class="no-highlight">165</i>&nbsp;    }
+<i class="no-highlight">166</i>&nbsp;
+<b class="nc"><i class="no-highlight">167</i>&nbsp;    private Deque&lt;TestDescriptor&gt; resolveAllSegments(UniqueId uniqueId) {</b>
+<i class="no-highlight">168</i>&nbsp;        List&lt;Segment&gt; segments = uniqueId.getSegments();
+<i class="no-highlight">169</i>&nbsp;        Deque&lt;TestDescriptor&gt; resolvedDescriptors = new LinkedList();
+<b class="nc"><i class="no-highlight">170</i>&nbsp;        resolvedDescriptors.addFirst(this.engineDescriptor);</b>
+<i class="no-highlight">171</i>&nbsp;
+<b class="nc"><i class="no-highlight">172</i>&nbsp;        for(int index = 1; index &lt; segments.size() &amp;&amp; resolvedDescriptors.size() == index; ++index) {</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;            Segment segment = (Segment)segments.get(index);</b>
+<i class="no-highlight">174</i>&nbsp;            TestDescriptor parent = (TestDescriptor)resolvedDescriptors.getLast();
+<b class="nc"><i class="no-highlight">175</i>&nbsp;            UniqueId partialUniqueId = parent.getUniqueId().append(segment);</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;            Optional&lt;TestDescriptor&gt; resolvedDescriptor = this.findTestDescriptorByUniqueId(partialUniqueId);</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;            if (!resolvedDescriptor.isPresent()) {</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;                resolvedDescriptor = this.resolvers.stream().map((resolver) -&gt; {</b>
+<i class="no-highlight">179</i>&nbsp;                    return resolver.resolveUniqueId(segment, parent);
+<i class="no-highlight">180</i>&nbsp;                }).filter(Optional::isPresent).map(Optional::get).findFirst();
+<i class="no-highlight">181</i>&nbsp;                Objects.requireNonNull(parent);
+<i class="no-highlight">182</i>&nbsp;                resolvedDescriptor.ifPresent(parent::addChild);
+<b class="pc"><i class="no-highlight">183</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">184</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">185</i>&nbsp;            Objects.requireNonNull(resolvedDescriptors);</b>
+<i class="no-highlight">186</i>&nbsp;            resolvedDescriptor.ifPresent(resolvedDescriptors::addLast);
+<i class="no-highlight">187</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">188</i>&nbsp;</b>
+<i class="no-highlight">189</i>&nbsp;        return resolvedDescriptors;
+<i class="no-highlight">190</i>&nbsp;    }
+<i class="no-highlight">191</i>&nbsp;
+<i class="no-highlight">192</i>&nbsp;    private void handleResolvedDescriptorsForUniqueId(UniqueId uniqueId, Deque&lt;TestDescriptor&gt; resolvedDescriptors) {
+<i class="no-highlight">193</i>&nbsp;        List&lt;Segment&gt; segments = uniqueId.getSegments();
+<i class="no-highlight">194</i>&nbsp;        int numSegmentsToResolve = segments.size() - 1;
+<i class="no-highlight">195</i>&nbsp;        int numSegmentsResolved = resolvedDescriptors.size() - 1;
+<b class="nc"><i class="no-highlight">196</i>&nbsp;        if (numSegmentsResolved == 0) {</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;            logger.warn(() -&gt; {</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;                return String.format(&quot;Unique ID &#39;%s&#39; could not be resolved.&quot;, uniqueId);</b>
+<i class="no-highlight">199</i>&nbsp;            });
+<b class="nc"><i class="no-highlight">200</i>&nbsp;        } else if (numSegmentsResolved != numSegmentsToResolve) {</b>
+<b class="nc"><i class="no-highlight">201</i>&nbsp;            if (resolvedDescriptors.getLast() instanceof Filterable) {</b>
+<b class="nc"><i class="no-highlight">202</i>&nbsp;                ((Filterable)resolvedDescriptors.getLast()).getDynamicDescendantFilter().allow(uniqueId);</b>
+<b class="nc"><i class="no-highlight">203</i>&nbsp;            } else {</b>
+<i class="no-highlight">204</i>&nbsp;                logger.warn(() -&gt; {
+<b class="nc"><i class="no-highlight">205</i>&nbsp;                    List&lt;Segment&gt; unresolved = segments.subList(1, segments.size());</b>
+<b class="nc"><i class="no-highlight">206</i>&nbsp;                    unresolved = unresolved.subList(numSegmentsResolved, unresolved.size());</b>
+<i class="no-highlight">207</i>&nbsp;                    return String.format(&quot;Unique ID &#39;%s&#39; could only be partially resolved. All resolved segments will be executed; however, the following segments could not be resolved: %s&quot;, uniqueId, unresolved);
+<b class="nc"><i class="no-highlight">208</i>&nbsp;                });</b>
+<b class="nc"><i class="no-highlight">209</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">210</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">211</i>&nbsp;            this.resolveChildren((TestDescriptor)resolvedDescriptors.getLast());</b>
+<b class="nc"><i class="no-highlight">212</i>&nbsp;        }</b>
+<i class="no-highlight">213</i>&nbsp;
+<b class="nc"><i class="no-highlight">214</i>&nbsp;    }</b>
+<i class="no-highlight">215</i>&nbsp;
+<b class="nc"><i class="no-highlight">216</i>&nbsp;    private Set&lt;TestDescriptor&gt; resolveContainerWithChildren(Class&lt;?&gt; containerClass, Set&lt;TestDescriptor&gt; potentialParents) {</b>
+<i class="no-highlight">217</i>&nbsp;        Set&lt;TestDescriptor&gt; resolvedDescriptors = this.resolveForAllParents(containerClass, potentialParents);
+<b class="nc"><i class="no-highlight">218</i>&nbsp;        resolvedDescriptors.forEach(this::resolveChildren);</b>
+<i class="no-highlight">219</i>&nbsp;        return resolvedDescriptors;
+<i class="no-highlight">220</i>&nbsp;    }
+<i class="no-highlight">221</i>&nbsp;
+<b class="nc"><i class="no-highlight">222</i>&nbsp;    private Set&lt;TestDescriptor&gt; resolveForAllParents(AnnotatedElement element, Set&lt;TestDescriptor&gt; potentialParents) {</b>
+<b class="nc"><i class="no-highlight">223</i>&nbsp;        Set&lt;TestDescriptor&gt; resolvedDescriptors = new HashSet();</b>
+<b class="nc"><i class="no-highlight">224</i>&nbsp;        potentialParents.forEach((parent) -&gt; {</b>
+<i class="no-highlight">225</i>&nbsp;            resolvedDescriptors.addAll(this.resolve(element, parent));
+<b class="nc"><i class="no-highlight">226</i>&nbsp;        });</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;        Stream var10000 = resolvedDescriptors.stream();</b>
+<i class="no-highlight">228</i>&nbsp;        Objects.requireNonNull(Filterable.class);
+<b class="nc"><i class="no-highlight">229</i>&nbsp;        var10000 = var10000.filter(Filterable.class::isInstance);</b>
+<b class="nc"><i class="no-highlight">230</i>&nbsp;        Objects.requireNonNull(Filterable.class);</b>
+<b class="nc"><i class="no-highlight">231</i>&nbsp;        var10000.map(Filterable.class::cast).forEach((testDescriptor) -&gt; {</b>
+<i class="no-highlight">232</i>&nbsp;            testDescriptor.getDynamicDescendantFilter().allowAll();
+<i class="no-highlight">233</i>&nbsp;        });
+<b class="nc"><i class="no-highlight">234</i>&nbsp;        return resolvedDescriptors;</b>
+<b class="nc"><i class="no-highlight">235</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">236</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">237</i>&nbsp;    private void resolveChildren(TestDescriptor descriptor) {</b>
+<i class="no-highlight">238</i>&nbsp;        if (descriptor instanceof ClassTestDescriptor) {
+<i class="no-highlight">239</i>&nbsp;            Class&lt;?&gt; testClass = ((ClassTestDescriptor)descriptor).getTestClass();
+<i class="no-highlight">240</i>&nbsp;            this.resolveContainedMethods(descriptor, testClass);
+<i class="no-highlight">241</i>&nbsp;            this.resolveContainedNestedClasses(descriptor, testClass);
+<i class="no-highlight">242</i>&nbsp;        }
+<i class="no-highlight">243</i>&nbsp;
+<i class="no-highlight">244</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">245</i>&nbsp;</b>
+<i class="no-highlight">246</i>&nbsp;    private void resolveContainedNestedClasses(TestDescriptor containerDescriptor, Class&lt;?&gt; clazz) {
+<i class="no-highlight">247</i>&nbsp;        List&lt;Class&lt;?&gt;&gt; nestedClassesCandidates = ReflectionUtils.findNestedClasses(clazz, isInnerClass);
+<i class="no-highlight">248</i>&nbsp;        nestedClassesCandidates.forEach((nestedClass) -&gt; {
+<i class="no-highlight">249</i>&nbsp;            this.resolveContainerWithChildren(nestedClass, Collections.singleton(containerDescriptor));
+<i class="no-highlight">250</i>&nbsp;        });
+<i class="no-highlight">251</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">252</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">253</i>&nbsp;    private void resolveContainedMethods(TestDescriptor containerDescriptor, Class&lt;?&gt; testClass) {</b>
+<b class="nc"><i class="no-highlight">254</i>&nbsp;        List&lt;Method&gt; testMethodCandidates = ReflectionUtils.findMethods(testClass, ReflectionUtils::isNotPrivate);</b>
+<i class="no-highlight">255</i>&nbsp;        testMethodCandidates.forEach((method) -&gt; {
+<i class="no-highlight">256</i>&nbsp;            this.resolve(method, containerDescriptor);
+<i class="no-highlight">257</i>&nbsp;        });
+<b class="fc"><i class="no-highlight">258</i>&nbsp;    }</b>
+<b class="fc"><i class="no-highlight">259</i>&nbsp;</b>
+<i class="no-highlight">260</i>&nbsp;    private Set&lt;TestDescriptor&gt; resolve(AnnotatedElement element, TestDescriptor parent) {
+<b class="fc"><i class="no-highlight">261</i>&nbsp;        Set&lt;TestDescriptor&gt; descriptors = (Set)this.resolvers.stream().map((resolver) -&gt; {</b>
+<b class="fc"><i class="no-highlight">262</i>&nbsp;            return this.tryToResolveWithResolver(element, parent, resolver);</b>
+<b class="fc"><i class="no-highlight">263</i>&nbsp;        }).filter((testDescriptors) -&gt; {</b>
+<b class="fc"><i class="no-highlight">264</i>&nbsp;            return !testDescriptors.isEmpty();</b>
+<i class="no-highlight">265</i>&nbsp;        }).flatMap(Collection::stream).collect(Collectors.toSet());
+<b class="fc"><i class="no-highlight">266</i>&nbsp;        this.logMultipleTestDescriptorsForSingleElement(element, descriptors);</b>
+<i class="no-highlight">267</i>&nbsp;        return descriptors;
+<i class="no-highlight">268</i>&nbsp;    }
+<i class="no-highlight">269</i>&nbsp;
+<b class="pc"><i class="no-highlight">270</i>&nbsp;    private Set&lt;TestDescriptor&gt; tryToResolveWithResolver(AnnotatedElement element, TestDescriptor parent, ElementResolver resolver) {</b>
+<b class="fc"><i class="no-highlight">271</i>&nbsp;        Set&lt;TestDescriptor&gt; resolvedDescriptors = resolver.resolveElement(element, parent);</b>
+<b class="fc"><i class="no-highlight">272</i>&nbsp;        Set&lt;TestDescriptor&gt; result = new LinkedHashSet();</b>
+<b class="fc"><i class="no-highlight">273</i>&nbsp;        resolvedDescriptors.forEach((testDescriptor) -&gt; {</b>
+<i class="no-highlight">274</i>&nbsp;            Optional&lt;TestDescriptor&gt; existingTestDescriptor = this.findTestDescriptorByUniqueId(testDescriptor.getUniqueId());
+<i class="no-highlight">275</i>&nbsp;            if (existingTestDescriptor.isPresent()) {
+<i class="no-highlight">276</i>&nbsp;                result.add((TestDescriptor)existingTestDescriptor.get());
+<i class="no-highlight">277</i>&nbsp;            } else {
+<b class="fc"><i class="no-highlight">278</i>&nbsp;                parent.addChild(testDescriptor);</b>
+<b class="fc"><i class="no-highlight">279</i>&nbsp;                result.add(testDescriptor);</b>
+<b class="nc"><i class="no-highlight">280</i>&nbsp;            }</b>
+<i class="no-highlight">281</i>&nbsp;
+<i class="no-highlight">282</i>&nbsp;        });
+<i class="no-highlight">283</i>&nbsp;        return result;
+<b class="fc"><i class="no-highlight">284</i>&nbsp;    }</b>
+<b class="fc"><i class="no-highlight">285</i>&nbsp;</b>
+<i class="no-highlight">286</i>&nbsp;    private Optional&lt;TestDescriptor&gt; findTestDescriptorByUniqueId(UniqueId uniqueId) {
+<i class="no-highlight">287</i>&nbsp;        return this.engineDescriptor.findByUniqueId(uniqueId);
+<i class="no-highlight">288</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">289</i>&nbsp;</b>
+<b class="fc"><i class="no-highlight">290</i>&nbsp;    private void logMultipleTestDescriptorsForSingleElement(AnnotatedElement element, Set&lt;TestDescriptor&gt; descriptors) {</b>
+<b class="fc"><i class="no-highlight">291</i>&nbsp;        if (descriptors.size() &gt; 1 &amp;&amp; element instanceof Method) {</b>
+<b class="fc"><i class="no-highlight">292</i>&nbsp;            Method method = (Method)element;</b>
+<b class="fc"><i class="no-highlight">293</i>&nbsp;            logger.warn(() -&gt; {</b>
+<i class="no-highlight">294</i>&nbsp;                return String.format(&quot;Possible configuration error: method [%s] resulted in multiple TestDescriptors %s. This is typically the result of annotating a method with multiple competing annotations such as @Test, @RepeatedTest, @ParameterizedTest, @TestFactory, etc.&quot;, method.toGenericString(), descriptors.stream().map((d) -&gt; {
+<b class="fc"><i class="no-highlight">295</i>&nbsp;                    return d.getClass().getName();</b>
+<i class="no-highlight">296</i>&nbsp;                }).collect(Collectors.toList()));
+<b class="fc"><i class="no-highlight">297</i>&nbsp;            });</b>
+<i class="no-highlight">298</i>&nbsp;        }
+<i class="no-highlight">299</i>&nbsp;
+<i class="no-highlight">300</i>&nbsp;    }
+<i class="no-highlight">301</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > LockManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.platform.engine.support.hierarchical</a>
+</div>
+
+<h1>Coverage Summary for Class: LockManager (org.junit.platform.engine.support.hierarchical)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LockManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    28.6%
+  </span>
+  <span class="absValue">
+    (2/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    13.6%
+  </span>
+  <span class="absValue">
+    (3/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.platform.engine.support.hierarchical;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">9</i>&nbsp;import java.util.Comparator;
+<i class="no-highlight">10</i>&nbsp;import java.util.LinkedHashMap;
+<i class="no-highlight">11</i>&nbsp;import java.util.List;
+<i class="no-highlight">12</i>&nbsp;import java.util.Map;
+<i class="no-highlight">13</i>&nbsp;import java.util.concurrent.ConcurrentHashMap;
+<i class="no-highlight">14</i>&nbsp;import java.util.concurrent.locks.Lock;
+<i class="no-highlight">15</i>&nbsp;import java.util.concurrent.locks.ReadWriteLock;
+<i class="no-highlight">16</i>&nbsp;import java.util.concurrent.locks.ReentrantReadWriteLock;
+<i class="no-highlight">17</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">18</i>&nbsp;import org.junit.platform.engine.support.hierarchical.ExclusiveResource.LockMode;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;class LockManager {
+<i class="no-highlight">21</i>&nbsp;    private static final Comparator&lt;ExclusiveResource&gt; COMPARATOR = Comparator.comparing(ExclusiveResource::getKey).thenComparing(ExclusiveResource::getLockMode);
+<i class="no-highlight">22</i>&nbsp;    private final Map&lt;String, ReadWriteLock&gt; locksByKey = new ConcurrentHashMap();
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    LockManager() {
+<i class="no-highlight">25</i>&nbsp;    }
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    ResourceLock getLockForResources(Collection&lt;ExclusiveResource&gt; resources) {
+<i class="no-highlight">28</i>&nbsp;        List&lt;Lock&gt; locks = this.getDistinctSortedLocks(resources);
+<i class="no-highlight">29</i>&nbsp;        return this.toResourceLock(locks);
+<i class="no-highlight">30</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">31</i>&nbsp;</b>
+<i class="no-highlight">32</i>&nbsp;    private List&lt;Lock&gt; getDistinctSortedLocks(Collection&lt;ExclusiveResource&gt; resources) {
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        Map&lt;String, List&lt;ExclusiveResource&gt;&gt; resourcesByKey = (Map)resources.stream().distinct().sorted(COMPARATOR).collect(Collectors.groupingBy(ExclusiveResource::getKey, LinkedHashMap::new, Collectors.toList()));</b>
+<i class="no-highlight">34</i>&nbsp;        return (List)resourcesByKey.values().stream().map((resourcesWithSameKey) -&gt; {
+<i class="no-highlight">35</i>&nbsp;            return (ExclusiveResource)resourcesWithSameKey.get(0);
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        }).map((resource) -&gt; {</b>
+<i class="no-highlight">37</i>&nbsp;            ReadWriteLock lock = (ReadWriteLock)this.locksByKey.computeIfAbsent(resource.getKey(), (key) -&gt; {
+<i class="no-highlight">38</i>&nbsp;                return new ReentrantReadWriteLock();
+<b class="nc"><i class="no-highlight">39</i>&nbsp;            });</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;            return resource.getLockMode() == LockMode.READ ? lock.readLock() : lock.writeLock();</b>
+<i class="no-highlight">41</i>&nbsp;        }).collect(Collectors.toList());
+<i class="no-highlight">42</i>&nbsp;    }
+<i class="no-highlight">43</i>&nbsp;
+<i class="no-highlight">44</i>&nbsp;    private ResourceLock toResourceLock(List&lt;Lock&gt; locks) {
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        int size = locks.size();</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        if (size == 0) {</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            return NopLock.INSTANCE;</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        } else {</b>
+<i class="no-highlight">49</i>&nbsp;            return (ResourceLock)(size == 1 ? new SingleLock((Lock)locks.get(0)) : new CompositeLock(locks));
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">52</i>&nbsp;}</b>
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

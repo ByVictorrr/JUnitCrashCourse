@@ -1,0 +1,182 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > AbstractMethodResolver</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.jupiter.engine.discovery</a>
+</div>
+
+<h1>Coverage Summary for Class: AbstractMethodResolver (org.junit.jupiter.engine.discovery)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AbstractMethodResolver</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58.1%
+  </span>
+  <span class="absValue">
+    (18/31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.jupiter.engine.discovery;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.lang.reflect.AnnotatedElement;
+<i class="no-highlight">9</i>&nbsp;import java.lang.reflect.Method;
+<i class="no-highlight">10</i>&nbsp;import java.util.Collections;
+<i class="no-highlight">11</i>&nbsp;import java.util.Optional;
+<i class="no-highlight">12</i>&nbsp;import java.util.Set;
+<i class="no-highlight">13</i>&nbsp;import java.util.function.Predicate;
+<i class="no-highlight">14</i>&nbsp;import org.junit.jupiter.engine.descriptor.ClassTestDescriptor;
+<i class="no-highlight">15</i>&nbsp;import org.junit.platform.commons.util.ClassUtils;
+<i class="no-highlight">16</i>&nbsp;import org.junit.platform.engine.TestDescriptor;
+<i class="no-highlight">17</i>&nbsp;import org.junit.platform.engine.UniqueId;
+<i class="no-highlight">18</i>&nbsp;import org.junit.platform.engine.UniqueId.Segment;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;abstract class AbstractMethodResolver implements ElementResolver {
+<i class="no-highlight">21</i>&nbsp;    private static final MethodFinder methodFinder = new MethodFinder();
+<i class="no-highlight">22</i>&nbsp;    private final String segmentType;
+<i class="no-highlight">23</i>&nbsp;    private final Predicate&lt;Method&gt; methodPredicate;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    AbstractMethodResolver(String segmentType, Predicate&lt;Method&gt; methodPredicate) {
+<i class="no-highlight">26</i>&nbsp;        this.segmentType = segmentType;
+<i class="no-highlight">27</i>&nbsp;        this.methodPredicate = methodPredicate;
+<i class="no-highlight">28</i>&nbsp;    }
+<i class="no-highlight">29</i>&nbsp;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;    public Set&lt;TestDescriptor&gt; resolveElement(AnnotatedElement element, TestDescriptor parent) {</b>
+<i class="no-highlight">31</i>&nbsp;        if (!(element instanceof Method)) {
+<i class="no-highlight">32</i>&nbsp;            return Collections.emptySet();
+<i class="no-highlight">33</i>&nbsp;        } else if (!(parent instanceof ClassTestDescriptor)) {
+<i class="no-highlight">34</i>&nbsp;            return Collections.emptySet();
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        } else {</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;            Method method = (Method)element;</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;            return !this.isRelevantMethod(method) ? Collections.emptySet() : Collections.singleton(this.createTestDescriptor(parent, method));</b>
+<i class="no-highlight">38</i>&nbsp;        }
+<i class="no-highlight">39</i>&nbsp;    }
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    public Optional&lt;TestDescriptor&gt; resolveUniqueId(Segment segment, TestDescriptor parent) {
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        if (!segment.getType().equals(this.segmentType)) {</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;            return Optional.empty();</b>
+<i class="no-highlight">44</i>&nbsp;        } else if (!(parent instanceof ClassTestDescriptor)) {
+<i class="no-highlight">45</i>&nbsp;            return Optional.empty();
+<b class="pc"><i class="no-highlight">46</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            Optional&lt;Method&gt; optionalMethod = this.findMethod(segment, (ClassTestDescriptor)parent);</b>
+<i class="no-highlight">48</i>&nbsp;            if (!optionalMethod.isPresent()) {
+<i class="no-highlight">49</i>&nbsp;                return Optional.empty();
+<b class="fc"><i class="no-highlight">50</i>&nbsp;            } else {</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;                Method method = (Method)optionalMethod.get();</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;                return !this.isRelevantMethod(method) ? Optional.empty() : Optional.of(this.createTestDescriptor(parent, method));</b>
+<i class="no-highlight">53</i>&nbsp;            }
+<i class="no-highlight">54</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">55</i>&nbsp;    }</b>
+<i class="no-highlight">56</i>&nbsp;
+<i class="no-highlight">57</i>&nbsp;    private boolean isRelevantMethod(Method candidate) {
+<i class="no-highlight">58</i>&nbsp;        return this.methodPredicate.test(candidate);
+<i class="no-highlight">59</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">60</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;    private UniqueId createUniqueId(Method method, TestDescriptor parent) {</b>
+<i class="no-highlight">62</i>&nbsp;        String methodId = String.format(&quot;%s(%s)&quot;, method.getName(), ClassUtils.nullSafeToString(method.getParameterTypes()));
+<i class="no-highlight">63</i>&nbsp;        return parent.getUniqueId().append(this.segmentType, methodId);
+<b class="nc"><i class="no-highlight">64</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;</b>
+<i class="no-highlight">66</i>&nbsp;    private Optional&lt;Method&gt; findMethod(Segment segment, ClassTestDescriptor parent) {
+<i class="no-highlight">67</i>&nbsp;        return methodFinder.findMethod(segment.getValue(), parent.getTestClass());
+<b class="nc"><i class="no-highlight">68</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;    private TestDescriptor createTestDescriptor(TestDescriptor parent, Method method) {</b>
+<i class="no-highlight">71</i>&nbsp;        UniqueId uniqueId = this.createUniqueId(method, parent);
+<i class="no-highlight">72</i>&nbsp;        Class&lt;?&gt; testClass = ((ClassTestDescriptor)parent).getTestClass();
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        return this.createTestDescriptor(uniqueId, testClass, method);</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;</b>
+<i class="no-highlight">76</i>&nbsp;    protected abstract TestDescriptor createTestDescriptor(UniqueId var1, Class&lt;?&gt; var2, Method var3);
+<i class="no-highlight">77</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

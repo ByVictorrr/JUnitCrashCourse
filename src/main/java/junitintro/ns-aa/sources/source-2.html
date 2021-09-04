@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ScriptExecutionManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.jupiter.engine.script</a>
+</div>
+
+<h1>Coverage Summary for Class: ScriptExecutionManager (org.junit.jupiter.engine.script)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScriptExecutionManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (1/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25.9%
+  </span>
+  <span class="absValue">
+    (7/27)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.jupiter.engine.script;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.concurrent.ConcurrentHashMap;
+<i class="no-highlight">9</i>&nbsp;import java.util.concurrent.ConcurrentMap;
+<i class="no-highlight">10</i>&nbsp;import javax.script.Bindings;
+<i class="no-highlight">11</i>&nbsp;import javax.script.Compilable;
+<i class="no-highlight">12</i>&nbsp;import javax.script.CompiledScript;
+<i class="no-highlight">13</i>&nbsp;import javax.script.ScriptEngine;
+<i class="no-highlight">14</i>&nbsp;import javax.script.ScriptEngineManager;
+<i class="no-highlight">15</i>&nbsp;import javax.script.ScriptException;
+<i class="no-highlight">16</i>&nbsp;import org.apiguardian.api.API;
+<i class="no-highlight">17</i>&nbsp;import org.apiguardian.api.API.Status;
+<i class="no-highlight">18</i>&nbsp;import org.junit.jupiter.engine.script.ScriptAccessor.EnvironmentVariableAccessor;
+<i class="no-highlight">19</i>&nbsp;import org.junit.jupiter.engine.script.ScriptAccessor.SystemPropertyAccessor;
+<i class="no-highlight">20</i>&nbsp;import org.junit.platform.commons.util.Preconditions;
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;@API(
+<i class="no-highlight">23</i>&nbsp;    status = Status.INTERNAL,
+<i class="no-highlight">24</i>&nbsp;    since = &quot;5.1&quot;
+<i class="no-highlight">25</i>&nbsp;)
+<i class="no-highlight">26</i>&nbsp;public class ScriptExecutionManager {
+<i class="no-highlight">27</i>&nbsp;    private final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
+<i class="no-highlight">28</i>&nbsp;    private final ConcurrentMap&lt;String, ScriptEngine&gt; scriptEngines = new ConcurrentHashMap();
+<i class="no-highlight">29</i>&nbsp;    private final ConcurrentMap&lt;Script, CompiledScript&gt; compiledScripts = new ConcurrentHashMap();
+<i class="no-highlight">30</i>&nbsp;    private final ScriptAccessor systemPropertyAccessor = new SystemPropertyAccessor();
+<i class="no-highlight">31</i>&nbsp;    private final ScriptAccessor environmentVariableAccessor = new EnvironmentVariableAccessor();
+<i class="no-highlight">32</i>&nbsp;    boolean forceScriptEvaluation = false;
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    public ScriptExecutionManager() {
+<b class="fc"><i class="no-highlight">35</i>&nbsp;    }</b>
+<i class="no-highlight">36</i>&nbsp;
+<b class="fc"><i class="no-highlight">37</i>&nbsp;    public Object evaluate(Script script, Bindings bindings) throws ScriptException {</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        CompiledScript compiledScript = (CompiledScript)this.compiledScripts.get(script);</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        if (compiledScript == null) {</b>
+<i class="no-highlight">40</i>&nbsp;            String source = script.getSource();
+<b class="fc"><i class="no-highlight">41</i>&nbsp;            ScriptEngine scriptEngine = (ScriptEngine)this.scriptEngines.computeIfAbsent(script.getEngine(), this::createScriptEngine);</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;            if (!(scriptEngine instanceof Compilable) || this.forceScriptEvaluation) {</b>
+<i class="no-highlight">43</i>&nbsp;                return scriptEngine.eval(source, bindings);
+<i class="no-highlight">44</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">45</i>&nbsp;</b>
+<i class="no-highlight">46</i>&nbsp;            compiledScript = ((Compilable)scriptEngine).compile(source);
+<i class="no-highlight">47</i>&nbsp;            this.compiledScripts.putIfAbsent(script, compiledScript);
+<i class="no-highlight">48</i>&nbsp;        }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;        return compiledScript.eval(bindings);
+<i class="no-highlight">51</i>&nbsp;    }
+<i class="no-highlight">52</i>&nbsp;
+<i class="no-highlight">53</i>&nbsp;    ScriptEngine createScriptEngine(String engine) {
+<i class="no-highlight">54</i>&nbsp;        ScriptEngine scriptEngine = this.scriptEngineManager.getEngineByName(engine);
+<i class="no-highlight">55</i>&nbsp;        if (scriptEngine == null) {
+<i class="no-highlight">56</i>&nbsp;            scriptEngine = this.scriptEngineManager.getEngineByExtension(engine);
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        }</b>
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;        if (scriptEngine == null) {
+<b class="nc"><i class="no-highlight">60</i>&nbsp;            scriptEngine = this.scriptEngineManager.getEngineByMimeType(engine);</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;        Preconditions.notNull(scriptEngine, () -&gt; {</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            return &quot;Script engine not found: &quot; + engine;</b>
+<i class="no-highlight">65</i>&nbsp;        });
+<i class="no-highlight">66</i>&nbsp;        Bindings bindings = scriptEngine.getBindings(200);
+<b class="nc"><i class="no-highlight">67</i>&nbsp;        bindings.put(&quot;systemProperty&quot;, this.systemPropertyAccessor);</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        bindings.put(&quot;systemEnvironment&quot;, this.environmentVariableAccessor);</b>
+<i class="no-highlight">69</i>&nbsp;        return scriptEngine;
+<i class="no-highlight">70</i>&nbsp;    }
+<i class="no-highlight">71</i>&nbsp;
+<b class="nc"><i class="no-highlight">72</i>&nbsp;    boolean isCompiledScriptsEmpty() {</b>
+<i class="no-highlight">73</i>&nbsp;        return this.compiledScripts.isEmpty();
+<i class="no-highlight">74</i>&nbsp;    }
+<i class="no-highlight">75</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

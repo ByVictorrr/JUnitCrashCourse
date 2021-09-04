@@ -47,7 +47,7 @@ public class OrderBOImplTest {
         when(this.dao.createOrder(order)).thenReturn(new Integer(0)); // set expectation (return result when called)
         boolean result = this.bo.placeOrder(order);
         Assertions.assertFalse(result);
-        verify(this.dao).createOrder(order); // make sure dao.createOrder() is getting called at least once
+        verify(this.dao).createOrder(any(Order.class)); // make sure dao.createOrder() is getting called at least once
 
     }
     @Test

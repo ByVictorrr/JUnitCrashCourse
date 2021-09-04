@@ -1,0 +1,200 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ScriptExecutionEvaluator</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.jupiter.engine.extension</a>
+</div>
+
+<h1>Coverage Summary for Class: ScriptExecutionEvaluator (org.junit.jupiter.engine.extension)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ScriptExecutionEvaluator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33.3%
+  </span>
+  <span class="absValue">
+    (2/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    8.1%
+  </span>
+  <span class="absValue">
+    (3/37)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.jupiter.engine.extension;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.Iterator;
+<i class="no-highlight">9</i>&nbsp;import java.util.List;
+<i class="no-highlight">10</i>&nbsp;import javax.script.Bindings;
+<i class="no-highlight">11</i>&nbsp;import javax.script.ScriptException;
+<i class="no-highlight">12</i>&nbsp;import javax.script.SimpleBindings;
+<i class="no-highlight">13</i>&nbsp;import org.junit.jupiter.api.condition.DisabledIf;
+<i class="no-highlight">14</i>&nbsp;import org.junit.jupiter.api.condition.EnabledIf;
+<i class="no-highlight">15</i>&nbsp;import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+<i class="no-highlight">16</i>&nbsp;import org.junit.jupiter.api.extension.ExtensionContext;
+<i class="no-highlight">17</i>&nbsp;import org.junit.jupiter.api.extension.ScriptEvaluationException;
+<i class="no-highlight">18</i>&nbsp;import org.junit.jupiter.engine.extension.ScriptExecutionCondition.Evaluator;
+<i class="no-highlight">19</i>&nbsp;import org.junit.jupiter.engine.script.Script;
+<i class="no-highlight">20</i>&nbsp;import org.junit.jupiter.engine.script.ScriptAccessor;
+<i class="no-highlight">21</i>&nbsp;import org.junit.jupiter.engine.script.ScriptExecutionManager;
+<i class="no-highlight">22</i>&nbsp;import org.junit.jupiter.engine.script.ScriptAccessor.ConfigurationParameterAccessor;
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;class ScriptExecutionEvaluator implements Evaluator {
+<i class="no-highlight">25</i>&nbsp;    private static final ConditionEvaluationResult ENABLED_ALL = ConditionEvaluationResult.enabled(&quot;All results are enabled&quot;);
+<i class="no-highlight">26</i>&nbsp;    private final ScriptExecutionManager scriptExecutionManager = new ScriptExecutionManager();
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    ScriptExecutionEvaluator() {
+<i class="no-highlight">29</i>&nbsp;    }
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;    public ConditionEvaluationResult evaluate(ExtensionContext context, List&lt;Script&gt; scripts) {
+<i class="no-highlight">32</i>&nbsp;        Bindings bindings = this.createBindings(context);
+<i class="no-highlight">33</i>&nbsp;        Iterator var4 = scripts.iterator();
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;        ConditionEvaluationResult result;
+<i class="no-highlight">36</i>&nbsp;        do {
+<i class="no-highlight">37</i>&nbsp;            if (!var4.hasNext()) {
+<b class="fc"><i class="no-highlight">38</i>&nbsp;                return ENABLED_ALL;</b>
+<i class="no-highlight">39</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">40</i>&nbsp;</b>
+<i class="no-highlight">41</i>&nbsp;            Script script = (Script)var4.next();
+<b class="fc"><i class="no-highlight">42</i>&nbsp;            result = this.evaluate(this.scriptExecutionManager, script, bindings);</b>
+<i class="no-highlight">43</i>&nbsp;        } while(!result.isDisabled());
+<i class="no-highlight">44</i>&nbsp;
+<i class="no-highlight">45</i>&nbsp;        return result;
+<b class="nc"><i class="no-highlight">46</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;    private Bindings createBindings(ExtensionContext context) {</b>
+<i class="no-highlight">49</i>&nbsp;        ScriptAccessor configurationParameterAccessor = new ConfigurationParameterAccessor(context);
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        Bindings bindings = new SimpleBindings();</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        bindings.put(&quot;junitTags&quot;, context.getTags());</b>
+<i class="no-highlight">52</i>&nbsp;        bindings.put(&quot;junitUniqueId&quot;, context.getUniqueId());
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        bindings.put(&quot;junitDisplayName&quot;, context.getDisplayName());</b>
+<i class="no-highlight">54</i>&nbsp;        bindings.put(&quot;junitConfigurationParameter&quot;, configurationParameterAccessor);
+<b class="nc"><i class="no-highlight">55</i>&nbsp;        return bindings;</b>
+<i class="no-highlight">56</i>&nbsp;    }
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    ConditionEvaluationResult evaluate(ScriptExecutionManager manager, Script script, Bindings bindings) {
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        if (script == null) {</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;            return null;</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;            try {</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;                Object result = manager.evaluate(script, bindings);</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;                return this.computeConditionEvaluationResult(script, result);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            } catch (ScriptException var5) {</b>
+<i class="no-highlight">66</i>&nbsp;                throw new ScriptEvaluationException(&quot;Script evaluation failed for: &quot; + script.getAnnotationAsString(), var5);
+<i class="no-highlight">67</i>&nbsp;            }
+<i class="no-highlight">68</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">69</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;</b>
+<i class="no-highlight">71</i>&nbsp;    ConditionEvaluationResult computeConditionEvaluationResult(Script script, Object result) {
+<i class="no-highlight">72</i>&nbsp;        if (result == null) {
+<b class="nc"><i class="no-highlight">73</i>&nbsp;            throw new ScriptEvaluationException(&quot;Script returned `null`: &quot; + script.getAnnotationAsString());</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        } else if (result instanceof ConditionEvaluationResult) {</b>
+<i class="no-highlight">75</i>&nbsp;            return (ConditionEvaluationResult)result;
+<b class="nc"><i class="no-highlight">76</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;            String resultAsString = String.valueOf(result);</b>
+<i class="no-highlight">78</i>&nbsp;            String reason = script.toReasonString(resultAsString);
+<i class="no-highlight">79</i>&nbsp;            boolean isTrue;
+<i class="no-highlight">80</i>&nbsp;            if (result instanceof Boolean) {
+<i class="no-highlight">81</i>&nbsp;                isTrue = (Boolean)result;
+<i class="no-highlight">82</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">83</i>&nbsp;                isTrue = Boolean.parseBoolean(resultAsString);</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;            }</b>
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;            if (script.getAnnotationType() == EnabledIf.class) {
+<i class="no-highlight">87</i>&nbsp;                return isTrue ? ConditionEvaluationResult.enabled(reason) : ConditionEvaluationResult.disabled(reason);
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            } else if (script.getAnnotationType() == DisabledIf.class) {</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;                return isTrue ? ConditionEvaluationResult.disabled(reason) : ConditionEvaluationResult.enabled(reason);</b>
+<i class="no-highlight">90</i>&nbsp;            } else {
+<i class="no-highlight">91</i>&nbsp;                throw new ScriptEvaluationException(&quot;Unsupported annotation type: &quot; + script.getAnnotationType());
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        }</b>
+<i class="no-highlight">94</i>&nbsp;    }
+<i class="no-highlight">95</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:22</div>
+</div>
+</body>
+</html>

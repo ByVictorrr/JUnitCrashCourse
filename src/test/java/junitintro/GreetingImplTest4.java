@@ -1,5 +1,6 @@
 package junitintro;
 
+/*
 import junitintro.Greeting;
 import junitintro.GreetingImpl;
 import org.junit.After;
@@ -40,3 +41,6 @@ public class GreetingImplTest4 {
     }
 
 }
+
+
+ */

@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CompositeFilter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.platform.engine</a>
+</div>
+
+<h1>Coverage Summary for Class: CompositeFilter (org.junit.platform.engine)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CompositeFilter</td>
+<td class="coverageStat">
+  <span class="percent">
+    42.9%
+  </span>
+  <span class="absValue">
+    (3/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (5/20)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CompositeFilter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    60%
+  </span>
+  <span class="absValue">
+    (6/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    34.8%
+  </span>
+  <span class="absValue">
+    (8/23)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.platform.engine;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">9</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">10</i>&nbsp;import java.util.function.Predicate;
+<i class="no-highlight">11</i>&nbsp;import java.util.stream.Collectors;
+<i class="no-highlight">12</i>&nbsp;import org.junit.platform.commons.util.Preconditions;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;class CompositeFilter&lt;T&gt; implements Filter&lt;T&gt; {
+<i class="no-highlight">15</i>&nbsp;    private static final Filter ALWAYS_INCLUDED_FILTER = new Filter() {
+<i class="no-highlight">16</i>&nbsp;        public FilterResult apply(Object obj) {
+<i class="no-highlight">17</i>&nbsp;            return CompositeFilter.ALWAYS_INCLUDED_RESULT;
+<i class="no-highlight">18</i>&nbsp;        }
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;        public Predicate toPredicate() {
+<i class="no-highlight">21</i>&nbsp;            return (obj) -&gt; {
+<i class="no-highlight">22</i>&nbsp;                return true;
+<i class="no-highlight">23</i>&nbsp;            };
+<i class="no-highlight">24</i>&nbsp;        }
+<i class="no-highlight">25</i>&nbsp;    };
+<i class="no-highlight">26</i>&nbsp;    private static final FilterResult ALWAYS_INCLUDED_RESULT = FilterResult.included(&quot;Always included&quot;);
+<i class="no-highlight">27</i>&nbsp;    private static final FilterResult INCLUDED_BY_ALL_FILTERS = FilterResult.included(&quot;Element was included by all filters.&quot;);
+<i class="no-highlight">28</i>&nbsp;    private final Collection&lt;Filter&lt;T&gt;&gt; filters;
+<i class="no-highlight">29</i>&nbsp;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;    static &lt;T&gt; Filter&lt;T&gt; alwaysIncluded() {</b>
+<i class="no-highlight">31</i>&nbsp;        return ALWAYS_INCLUDED_FILTER;
+<i class="no-highlight">32</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">33</i>&nbsp;</b>
+<i class="no-highlight">34</i>&nbsp;    CompositeFilter(Collection&lt;? extends Filter&lt;T&gt;&gt; filters) {
+<i class="no-highlight">35</i>&nbsp;        this.filters = new ArrayList(Preconditions.notEmpty(filters, &quot;filters must not be empty&quot;));
+<b class="fc"><i class="no-highlight">36</i>&nbsp;    }</b>
+<i class="no-highlight">37</i>&nbsp;
+<i class="no-highlight">38</i>&nbsp;    public FilterResult apply(T element) {
+<i class="no-highlight">39</i>&nbsp;        return (FilterResult)this.filters.stream().map((filter) -&gt; {
+<i class="no-highlight">40</i>&nbsp;            return filter.apply(element);
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        }).filter(FilterResult::excluded).findFirst().orElse(INCLUDED_BY_ALL_FILTERS);</b>
+<i class="no-highlight">42</i>&nbsp;    }
+<i class="no-highlight">43</i>&nbsp;
+<i class="no-highlight">44</i>&nbsp;    public Predicate&lt;T&gt; toPredicate() {
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        return (Predicate)this.filters.stream().map(Filter::toPredicate).reduce(Predicate::and).get();</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;    }</b>
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    public String toString() {
+<i class="no-highlight">49</i>&nbsp;        return (String)this.filters.stream().map(Object::toString).map((value) -&gt; {
+<b class="fc"><i class="no-highlight">50</i>&nbsp;            return String.format(&quot;(%s)&quot;, value);</b>
+<i class="no-highlight">51</i>&nbsp;        }).collect(Collectors.joining(&quot; and &quot;));
+<i class="no-highlight">52</i>&nbsp;    }
+<i class="no-highlight">53</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

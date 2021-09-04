@@ -1,0 +1,267 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DefensiveAllDefaultPossibilitiesBuilder</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.vintage.engine.discovery</a>
+</div>
+
+<h1>Coverage Summary for Class: DefensiveAllDefaultPossibilitiesBuilder (org.junit.vintage.engine.discovery)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DefensiveAllDefaultPossibilitiesBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (6/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.1%
+  </span>
+  <span class="absValue">
+    (11/18)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DefensiveAllDefaultPossibilitiesBuilder$DefensiveAnnotatedBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DefensiveAllDefaultPossibilitiesBuilder$DefensiveJUnit4Builder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.3%
+  </span>
+  <span class="absValue">
+    (5/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DefensiveAllDefaultPossibilitiesBuilder$NullIgnoredBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    81.2%
+  </span>
+  <span class="absValue">
+    (13/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    61.3%
+  </span>
+  <span class="absValue">
+    (19/31)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.vintage.engine.discovery;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.lang.reflect.Method;
+<i class="no-highlight">9</i>&nbsp;import java.util.function.Predicate;
+<i class="no-highlight">10</i>&nbsp;import org.junit.Ignore;
+<i class="no-highlight">11</i>&nbsp;import org.junit.internal.builders.AllDefaultPossibilitiesBuilder;
+<i class="no-highlight">12</i>&nbsp;import org.junit.internal.builders.AnnotatedBuilder;
+<i class="no-highlight">13</i>&nbsp;import org.junit.internal.builders.IgnoredBuilder;
+<i class="no-highlight">14</i>&nbsp;import org.junit.internal.builders.IgnoredClassRunner;
+<i class="no-highlight">15</i>&nbsp;import org.junit.internal.builders.JUnit4Builder;
+<i class="no-highlight">16</i>&nbsp;import org.junit.platform.commons.logging.Logger;
+<i class="no-highlight">17</i>&nbsp;import org.junit.platform.commons.logging.LoggerFactory;
+<i class="no-highlight">18</i>&nbsp;import org.junit.platform.commons.util.ReflectionUtils;
+<i class="no-highlight">19</i>&nbsp;import org.junit.runner.Runner;
+<i class="no-highlight">20</i>&nbsp;import org.junit.runner.manipulation.Filterable;
+<i class="no-highlight">21</i>&nbsp;import org.junit.runners.model.RunnerBuilder;
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;class DefensiveAllDefaultPossibilitiesBuilder extends AllDefaultPossibilitiesBuilder {
+<i class="no-highlight">24</i>&nbsp;    private static final Logger logger = LoggerFactory.getLogger(DefensiveAllDefaultPossibilitiesBuilder.class);
+<i class="no-highlight">25</i>&nbsp;    private final AnnotatedBuilder annotatedBuilder = new DefensiveAllDefaultPossibilitiesBuilder.DefensiveAnnotatedBuilder(this);
+<i class="no-highlight">26</i>&nbsp;    private final JUnit4Builder junit4Builder = new DefensiveAllDefaultPossibilitiesBuilder.DefensiveJUnit4Builder();
+<i class="no-highlight">27</i>&nbsp;    private final IgnoredBuilder ignoredBuilder = new DefensiveAllDefaultPossibilitiesBuilder.NullIgnoredBuilder();
+<i class="no-highlight">28</i>&nbsp;
+<i class="no-highlight">29</i>&nbsp;    DefensiveAllDefaultPossibilitiesBuilder() {
+<i class="no-highlight">30</i>&nbsp;        super(true);
+<i class="no-highlight">31</i>&nbsp;    }
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;    public Runner runnerForClass(Class&lt;?&gt; testClass) throws Throwable {
+<i class="no-highlight">34</i>&nbsp;        Runner runner = super.runnerForClass(testClass);
+<i class="no-highlight">35</i>&nbsp;        if (testClass.getAnnotation(Ignore.class) != null) {
+<i class="no-highlight">36</i>&nbsp;            return (Runner)(runner == null ? new IgnoredClassRunner(testClass) : this.decorateIgnoredTestClass(runner));
+<i class="no-highlight">37</i>&nbsp;        } else {
+<i class="no-highlight">38</i>&nbsp;            return runner;
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        }</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<b class="fc"><i class="no-highlight">41</i>&nbsp;</b>
+<i class="no-highlight">42</i>&nbsp;    private Runner decorateIgnoredTestClass(Runner runner) {
+<i class="no-highlight">43</i>&nbsp;        return (Runner)(runner instanceof Filterable ? new FilterableIgnoringRunnerDecorator(runner) : new IgnoringRunnerDecorator(runner));
+<i class="no-highlight">44</i>&nbsp;    }
+<i class="no-highlight">45</i>&nbsp;
+<i class="no-highlight">46</i>&nbsp;    protected AnnotatedBuilder annotatedBuilder() {
+<i class="no-highlight">47</i>&nbsp;        return this.annotatedBuilder;
+<b class="fc"><i class="no-highlight">48</i>&nbsp;    }</b>
+<b class="fc"><i class="no-highlight">49</i>&nbsp;</b>
+<b class="fc"><i class="no-highlight">50</i>&nbsp;    protected JUnit4Builder junit4Builder() {</b>
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        return this.junit4Builder;</b>
+<i class="no-highlight">52</i>&nbsp;    }
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    protected IgnoredBuilder ignoredBuilder() {
+<i class="no-highlight">55</i>&nbsp;        return this.ignoredBuilder;
+<b class="fc"><i class="no-highlight">56</i>&nbsp;    }</b>
+<b class="pc"><i class="no-highlight">57</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;    private static class NullIgnoredBuilder extends IgnoredBuilder {</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        private NullIgnoredBuilder() {</b>
+<i class="no-highlight">60</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">61</i>&nbsp;</b>
+<i class="no-highlight">62</i>&nbsp;        public Runner runnerForClass(Class&lt;?&gt; testClass) {
+<b class="fc"><i class="no-highlight">63</i>&nbsp;            return null;</b>
+<i class="no-highlight">64</i>&nbsp;        }
+<i class="no-highlight">65</i>&nbsp;    }
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;    private static class DefensiveJUnit4Builder extends JUnit4Builder {
+<i class="no-highlight">68</i>&nbsp;        private static final Predicate&lt;Method&gt; isPotentialJUnit4TestMethod = new IsPotentialJUnit4TestMethod();
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;        private DefensiveJUnit4Builder() {
+<i class="no-highlight">71</i>&nbsp;        }
+<i class="no-highlight">72</i>&nbsp;
+<i class="no-highlight">73</i>&nbsp;        public Runner runnerForClass(Class&lt;?&gt; testClass) throws Throwable {
+<i class="no-highlight">74</i>&nbsp;            return this.containsTestMethods(testClass) ? super.runnerForClass(testClass) : null;
+<b class="nc"><i class="no-highlight">75</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;</b>
+<i class="no-highlight">77</i>&nbsp;        private boolean containsTestMethods(Class&lt;?&gt; testClass) {
+<b class="nc"><i class="no-highlight">78</i>&nbsp;            return ReflectionUtils.isMethodPresent(testClass, isPotentialJUnit4TestMethod);</b>
+<i class="no-highlight">79</i>&nbsp;        }
+<i class="no-highlight">80</i>&nbsp;    }
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;    private static class DefensiveAnnotatedBuilder extends AnnotatedBuilder {
+<b class="fc"><i class="no-highlight">83</i>&nbsp;        DefensiveAnnotatedBuilder(RunnerBuilder suiteBuilder) {</b>
+<i class="no-highlight">84</i>&nbsp;            super(suiteBuilder);
+<i class="no-highlight">85</i>&nbsp;        }
+<i class="no-highlight">86</i>&nbsp;
+<i class="no-highlight">87</i>&nbsp;        public Runner buildRunner(Class&lt;? extends Runner&gt; runnerClass, Class&lt;?&gt; testClass) throws Exception {
+<b class="fc"><i class="no-highlight">88</i>&nbsp;            if (&quot;org.junit.platform.runner.JUnitPlatform&quot;.equals(runnerClass.getName())) {</b>
+<i class="no-highlight">89</i>&nbsp;                DefensiveAllDefaultPossibilitiesBuilder.logger.warn(() -&gt; {
+<i class="no-highlight">90</i>&nbsp;                    return &quot;Ignoring test class using JUnitPlatform runner: &quot; + testClass.getName();
+<i class="no-highlight">91</i>&nbsp;                });
+<i class="no-highlight">92</i>&nbsp;                return null;
+<b class="fc"><i class="no-highlight">93</i>&nbsp;            } else {</b>
+<i class="no-highlight">94</i>&nbsp;                return super.buildRunner(runnerClass, testClass);
+<i class="no-highlight">95</i>&nbsp;            }
+<i class="no-highlight">96</i>&nbsp;        }
+<i class="no-highlight">97</i>&nbsp;    }
+<i class="no-highlight">98</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

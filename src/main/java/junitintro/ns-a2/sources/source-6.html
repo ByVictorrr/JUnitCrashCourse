@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > EnabledIfSystemPropertyCondition</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.jupiter.api.condition</a>
+</div>
+
+<h1>Coverage Summary for Class: EnabledIfSystemPropertyCondition (org.junit.jupiter.api.condition)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">EnabledIfSystemPropertyCondition</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.jupiter.api.condition;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.Optional;
+<i class="no-highlight">9</i>&nbsp;import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+<i class="no-highlight">10</i>&nbsp;import org.junit.jupiter.api.extension.ExecutionCondition;
+<i class="no-highlight">11</i>&nbsp;import org.junit.jupiter.api.extension.ExtensionContext;
+<i class="no-highlight">12</i>&nbsp;import org.junit.platform.commons.util.AnnotationUtils;
+<i class="no-highlight">13</i>&nbsp;import org.junit.platform.commons.util.Preconditions;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;class EnabledIfSystemPropertyCondition implements ExecutionCondition {
+<i class="no-highlight">16</i>&nbsp;    private static final ConditionEvaluationResult ENABLED_BY_DEFAULT = ConditionEvaluationResult.enabled(&quot;@EnabledIfSystemProperty is not present&quot;);
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    EnabledIfSystemPropertyCondition() {
+<i class="no-highlight">19</i>&nbsp;    }
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
+<i class="no-highlight">22</i>&nbsp;        Optional&lt;EnabledIfSystemProperty&gt; optional = AnnotationUtils.findAnnotation(context.getElement(), EnabledIfSystemProperty.class);
+<i class="no-highlight">23</i>&nbsp;        if (!optional.isPresent()) {
+<i class="no-highlight">24</i>&nbsp;            return ENABLED_BY_DEFAULT;
+<i class="no-highlight">25</i>&nbsp;        } else {
+<i class="no-highlight">26</i>&nbsp;            EnabledIfSystemProperty annotation = (EnabledIfSystemProperty)optional.get();
+<i class="no-highlight">27</i>&nbsp;            String name = annotation.named().trim();
+<i class="no-highlight">28</i>&nbsp;            String regex = annotation.matches();
+<i class="no-highlight">29</i>&nbsp;            Preconditions.notBlank(name, () -&gt; {
+<i class="no-highlight">30</i>&nbsp;                return &quot;The &#39;named&#39; attribute must not be blank in &quot; + annotation;
+<b class="nc"><i class="no-highlight">31</i>&nbsp;            });</b>
+<i class="no-highlight">32</i>&nbsp;            Preconditions.notBlank(regex, () -&gt; {
+<b class="nc"><i class="no-highlight">33</i>&nbsp;                return &quot;The &#39;matches&#39; attribute must not be blank in &quot; + annotation;</b>
+<i class="no-highlight">34</i>&nbsp;            });
+<i class="no-highlight">35</i>&nbsp;            String actual = System.getProperty(name);
+<i class="no-highlight">36</i>&nbsp;            if (actual == null) {
+<i class="no-highlight">37</i>&nbsp;                return ConditionEvaluationResult.disabled(String.format(&quot;System property [%s] does not exist&quot;, name));
+<b class="nc"><i class="no-highlight">38</i>&nbsp;            } else {</b>
+<i class="no-highlight">39</i>&nbsp;                return actual.matches(regex) ? ConditionEvaluationResult.enabled(String.format(&quot;System property [%s] with value [%s] matches regular expression [%s]&quot;, name, actual, regex)) : ConditionEvaluationResult.disabled(String.format(&quot;System property [%s] with value [%s] does not match regular expression [%s]&quot;, name, actual, regex));
+<i class="no-highlight">40</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;    }</b>
+<i class="no-highlight">43</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:22</div>
+</div>
+</body>
+</html>

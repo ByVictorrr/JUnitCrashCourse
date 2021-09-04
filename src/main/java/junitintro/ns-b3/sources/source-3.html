@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HierarchicalTestExecutor</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.platform.engine.support.hierarchical</a>
+</div>
+
+<h1>Coverage Summary for Class: HierarchicalTestExecutor (org.junit.platform.engine.support.hierarchical)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HierarchicalTestExecutor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.platform.engine.support.hierarchical;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.util.concurrent.Future;
+<i class="no-highlight">9</i>&nbsp;import org.junit.platform.engine.EngineExecutionListener;
+<i class="no-highlight">10</i>&nbsp;import org.junit.platform.engine.ExecutionRequest;
+<i class="no-highlight">11</i>&nbsp;import org.junit.platform.engine.TestDescriptor;
+<i class="no-highlight">12</i>&nbsp;import org.junit.platform.engine.support.hierarchical.ThrowableCollector.Factory;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;class HierarchicalTestExecutor&lt;C extends EngineExecutionContext&gt; {
+<i class="no-highlight">15</i>&nbsp;    private final ExecutionRequest request;
+<i class="no-highlight">16</i>&nbsp;    private final C rootContext;
+<i class="no-highlight">17</i>&nbsp;    private final HierarchicalTestExecutorService executorService;
+<i class="no-highlight">18</i>&nbsp;    private final Factory throwableCollectorFactory;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    HierarchicalTestExecutor(ExecutionRequest request, C rootContext, HierarchicalTestExecutorService executorService, Factory throwableCollectorFactory) {
+<i class="no-highlight">21</i>&nbsp;        this.request = request;
+<i class="no-highlight">22</i>&nbsp;        this.rootContext = rootContext;
+<i class="no-highlight">23</i>&nbsp;        this.executorService = executorService;
+<i class="no-highlight">24</i>&nbsp;        this.throwableCollectorFactory = throwableCollectorFactory;
+<i class="no-highlight">25</i>&nbsp;    }
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    Future&lt;Void&gt; execute() {
+<i class="no-highlight">28</i>&nbsp;        TestDescriptor rootTestDescriptor = this.request.getRootTestDescriptor();
+<i class="no-highlight">29</i>&nbsp;        EngineExecutionListener executionListener = this.request.getEngineExecutionListener();
+<i class="no-highlight">30</i>&nbsp;        NodeExecutionAdvisor executionAdvisor = (new NodeTreeWalker()).walk(rootTestDescriptor);
+<i class="no-highlight">31</i>&nbsp;        NodeTestTaskContext taskContext = new NodeTestTaskContext(executionListener, this.executorService, this.throwableCollectorFactory, executionAdvisor);
+<i class="no-highlight">32</i>&nbsp;        NodeTestTask&lt;C&gt; rootTestTask = new NodeTestTask(taskContext, rootTestDescriptor);
+<i class="no-highlight">33</i>&nbsp;        rootTestTask.setParentContext(this.rootContext);
+<i class="no-highlight">34</i>&nbsp;        return this.executorService.submit(rootTestTask);
+<i class="no-highlight">35</i>&nbsp;    }
+<i class="no-highlight">36</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:23</div>
+</div>
+</body>
+</html>

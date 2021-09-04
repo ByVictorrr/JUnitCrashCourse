@@ -1,0 +1,254 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VintageTestDescriptor</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">org.junit.vintage.engine.descriptor</a>
+</div>
+
+<h1>Coverage Summary for Class: VintageTestDescriptor (org.junit.vintage.engine.descriptor)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VintageTestDescriptor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;//
+<i class="no-highlight">2</i>&nbsp;// Source code recreated from a .class file by IntelliJ IDEA
+<i class="no-highlight">3</i>&nbsp;// (powered by FernFlower decompiler)
+<i class="no-highlight">4</i>&nbsp;//
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;package org.junit.vintage.engine.descriptor;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import java.lang.reflect.Method;
+<i class="no-highlight">9</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">10</i>&nbsp;import java.util.Arrays;
+<i class="no-highlight">11</i>&nbsp;import java.util.Collection;
+<i class="no-highlight">12</i>&nbsp;import java.util.LinkedHashSet;
+<i class="no-highlight">13</i>&nbsp;import java.util.List;
+<i class="no-highlight">14</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">15</i>&nbsp;import java.util.Optional;
+<i class="no-highlight">16</i>&nbsp;import java.util.Set;
+<i class="no-highlight">17</i>&nbsp;import java.util.function.Predicate;
+<i class="no-highlight">18</i>&nbsp;import java.util.stream.Stream;
+<i class="no-highlight">19</i>&nbsp;import org.apiguardian.api.API;
+<i class="no-highlight">20</i>&nbsp;import org.apiguardian.api.API.Status;
+<i class="no-highlight">21</i>&nbsp;import org.junit.experimental.categories.Category;
+<i class="no-highlight">22</i>&nbsp;import org.junit.platform.commons.util.CollectionUtils;
+<i class="no-highlight">23</i>&nbsp;import org.junit.platform.commons.util.FunctionUtils;
+<i class="no-highlight">24</i>&nbsp;import org.junit.platform.commons.util.ReflectionUtils;
+<i class="no-highlight">25</i>&nbsp;import org.junit.platform.engine.TestDescriptor;
+<i class="no-highlight">26</i>&nbsp;import org.junit.platform.engine.TestSource;
+<i class="no-highlight">27</i>&nbsp;import org.junit.platform.engine.TestTag;
+<i class="no-highlight">28</i>&nbsp;import org.junit.platform.engine.UniqueId;
+<i class="no-highlight">29</i>&nbsp;import org.junit.platform.engine.TestDescriptor.Type;
+<i class="no-highlight">30</i>&nbsp;import org.junit.platform.engine.support.descriptor.AbstractTestDescriptor;
+<i class="no-highlight">31</i>&nbsp;import org.junit.platform.engine.support.descriptor.ClassSource;
+<i class="no-highlight">32</i>&nbsp;import org.junit.platform.engine.support.descriptor.MethodSource;
+<i class="no-highlight">33</i>&nbsp;import org.junit.runner.Description;
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;@API(
+<i class="no-highlight">36</i>&nbsp;    status = Status.INTERNAL,
+<i class="no-highlight">37</i>&nbsp;    since = &quot;4.12&quot;
+<i class="no-highlight">38</i>&nbsp;)
+<i class="no-highlight">39</i>&nbsp;public class VintageTestDescriptor extends AbstractTestDescriptor {
+<i class="no-highlight">40</i>&nbsp;    public static final String ENGINE_ID = &quot;junit-vintage&quot;;
+<i class="no-highlight">41</i>&nbsp;    public static final String SEGMENT_TYPE_RUNNER = &quot;runner&quot;;
+<i class="no-highlight">42</i>&nbsp;    public static final String SEGMENT_TYPE_TEST = &quot;test&quot;;
+<i class="no-highlight">43</i>&nbsp;    public static final String SEGMENT_TYPE_DYNAMIC = &quot;dynamic&quot;;
+<i class="no-highlight">44</i>&nbsp;    private final Description description;
+<i class="no-highlight">45</i>&nbsp;
+<i class="no-highlight">46</i>&nbsp;    public VintageTestDescriptor(UniqueId uniqueId, Description description) {
+<i class="no-highlight">47</i>&nbsp;        this(uniqueId, description, generateDisplayName(description), toTestSource(description));
+<i class="no-highlight">48</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    VintageTestDescriptor(UniqueId uniqueId, Description description, String displayName, TestSource source) {
+<i class="no-highlight">51</i>&nbsp;        super(uniqueId, displayName, source);
+<i class="no-highlight">52</i>&nbsp;        this.description = description;
+<i class="no-highlight">53</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">54</i>&nbsp;</b>
+<i class="no-highlight">55</i>&nbsp;    private static String generateDisplayName(Description description) {
+<i class="no-highlight">56</i>&nbsp;        return description.getMethodName() != null ? description.getMethodName() : description.getDisplayName();
+<i class="no-highlight">57</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">58</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;    public Description getDescription() {</b>
+<i class="no-highlight">60</i>&nbsp;        return this.description;
+<i class="no-highlight">61</i>&nbsp;    }
+<i class="no-highlight">62</i>&nbsp;
+<b class="nc"><i class="no-highlight">63</i>&nbsp;    public Type getType() {</b>
+<i class="no-highlight">64</i>&nbsp;        return this.description.isTest() ? Type.TEST : Type.CONTAINER;
+<i class="no-highlight">65</i>&nbsp;    }
+<i class="no-highlight">66</i>&nbsp;
+<b class="nc"><i class="no-highlight">67</i>&nbsp;    public Set&lt;TestTag&gt; getTags() {</b>
+<i class="no-highlight">68</i>&nbsp;        Set&lt;TestTag&gt; tags = new LinkedHashSet();
+<i class="no-highlight">69</i>&nbsp;        this.addTagsFromParent(tags);
+<i class="no-highlight">70</i>&nbsp;        this.addCategoriesAsTags(tags);
+<i class="no-highlight">71</i>&nbsp;        return tags;
+<b class="nc"><i class="no-highlight">72</i>&nbsp;    }</b>
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    public void removeFromHierarchy() {
+<i class="no-highlight">75</i>&nbsp;        if (this.canBeRemovedFromHierarchy()) {
+<i class="no-highlight">76</i>&nbsp;            super.removeFromHierarchy();
+<b class="nc"><i class="no-highlight">77</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;</b>
+<i class="no-highlight">81</i>&nbsp;    protected boolean canBeRemovedFromHierarchy() {
+<i class="no-highlight">82</i>&nbsp;        return this.tryToExcludeFromRunner(this.description);
+<i class="no-highlight">83</i>&nbsp;    }
+<i class="no-highlight">84</i>&nbsp;
+<b class="nc"><i class="no-highlight">85</i>&nbsp;    protected boolean tryToExcludeFromRunner(Description description) {</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;        Optional var10000 = this.getParent();</b>
+<i class="no-highlight">87</i>&nbsp;        Objects.requireNonNull(VintageTestDescriptor.class);
+<i class="no-highlight">88</i>&nbsp;        return (Boolean)var10000.map(VintageTestDescriptor.class::cast).map((parent) -&gt; {
+<i class="no-highlight">89</i>&nbsp;            return parent.tryToExcludeFromRunner(description);
+<i class="no-highlight">90</i>&nbsp;        }).orElse(false);
+<b class="nc"><i class="no-highlight">91</i>&nbsp;    }</b>
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;    void pruneDescriptorsForObsoleteDescriptions(List&lt;Description&gt; newSiblingDescriptions) {
+<i class="no-highlight">94</i>&nbsp;        Optional&lt;Description&gt; newDescription = newSiblingDescriptions.stream().filter(Predicate.isEqual(this.description)).findAny();
+<i class="no-highlight">95</i>&nbsp;        if (newDescription.isPresent()) {
+<b class="nc"><i class="no-highlight">96</i>&nbsp;            List&lt;Description&gt; newChildren = ((Description)newDescription.get()).getChildren();</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;            Stream var10000 = (new ArrayList(this.children)).stream();</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;            Objects.requireNonNull(VintageTestDescriptor.class);</b>
+<i class="no-highlight">99</i>&nbsp;            var10000.map(VintageTestDescriptor.class::cast).forEach((childDescriptor) -&gt; {
+<i class="no-highlight">100</i>&nbsp;                childDescriptor.pruneDescriptorsForObsoleteDescriptions(newChildren);
+<i class="no-highlight">101</i>&nbsp;            });
+<i class="no-highlight">102</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">103</i>&nbsp;            super.removeFromHierarchy();</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">105</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;    private void addTagsFromParent(Set&lt;TestTag&gt; tags) {</b>
+<i class="no-highlight">109</i>&nbsp;        Optional var10000 = this.getParent().map(TestDescriptor::getTags);
+<b class="nc"><i class="no-highlight">110</i>&nbsp;        Objects.requireNonNull(tags);</b>
+<i class="no-highlight">111</i>&nbsp;        var10000.ifPresent(tags::addAll);
+<i class="no-highlight">112</i>&nbsp;    }
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;    private void addCategoriesAsTags(Set&lt;TestTag&gt; tags) {
+<b class="nc"><i class="no-highlight">115</i>&nbsp;        Category annotation = (Category)this.description.getAnnotation(Category.class);</b>
+<i class="no-highlight">116</i>&nbsp;        if (annotation != null) {
+<i class="no-highlight">117</i>&nbsp;            Stream var10000 = Arrays.stream(annotation.value()).map(ReflectionUtils::getAllAssignmentCompatibleClasses).flatMap(Collection::stream).distinct().map(Class::getName).map(TestTag::create);
+<i class="no-highlight">118</i>&nbsp;            Objects.requireNonNull(tags);
+<b class="nc"><i class="no-highlight">119</i>&nbsp;            var10000.forEachOrdered(tags::add);</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;        }</b>
+<i class="no-highlight">121</i>&nbsp;
+<b class="nc"><i class="no-highlight">122</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">123</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;    private static TestSource toTestSource(Description description) {</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;        Class&lt;?&gt; testClass = description.getTestClass();</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;        if (testClass != null) {</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;            String methodName = description.getMethodName();</b>
+<b class="nc"><i class="no-highlight">128</i>&nbsp;            if (methodName != null) {</b>
+<i class="no-highlight">129</i>&nbsp;                MethodSource methodSource = toMethodSource(testClass, methodName);
+<i class="no-highlight">130</i>&nbsp;                if (methodSource != null) {
+<i class="no-highlight">131</i>&nbsp;                    return methodSource;
+<i class="no-highlight">132</i>&nbsp;                }
+<i class="no-highlight">133</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">134</i>&nbsp;</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;            return ClassSource.from(testClass);</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;        } else {</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;            return null;</b>
+<b class="nc"><i class="no-highlight">138</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">139</i>&nbsp;    }</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;</b>
+<i class="no-highlight">141</i>&nbsp;    private static MethodSource toMethodSource(Class&lt;?&gt; testClass, String methodName) {
+<i class="no-highlight">142</i>&nbsp;        if (methodName.contains(&quot;[&quot;) &amp;&amp; methodName.endsWith(&quot;]&quot;)) {
+<b class="nc"><i class="no-highlight">143</i>&nbsp;            return toMethodSource(testClass, methodName.substring(0, methodName.indexOf(&quot;[&quot;)));</b>
+<i class="no-highlight">144</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">145</i>&nbsp;            List&lt;Method&gt; methods = ReflectionUtils.findMethods(testClass, FunctionUtils.where(Method::getName, Predicate.isEqual(methodName)));</b>
+<i class="no-highlight">146</i>&nbsp;            return methods.size() == 1 ? MethodSource.from((Method)CollectionUtils.getOnlyElement(methods)) : null;
+<i class="no-highlight">147</i>&nbsp;        }
+<i class="no-highlight">148</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">149</i>&nbsp;}</b>
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-09-04 02:22</div>
+</div>
+</body>
+</html>
